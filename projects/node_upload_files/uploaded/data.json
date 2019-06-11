@@ -1,0 +1,28 @@
+{
+    "items": {
+        "item1": {
+            "title": "Free",
+            "price": "$20",
+            "users": 10,
+            "storage": "2 GB"
+        },
+        "item2": {
+            "title": "Advanced",
+            "price": "$300",
+            "users": 15,
+            "storage": "4 GB"
+        },
+        "item3": {
+            "title": "Pro",
+            "price": "$500",
+            "users": 25,
+            "storage": "8 GB"
+        },
+        "item4": {
+            "title": "Superb",
+            "price": "$1000",
+            "users": 100,
+            "storage": "128 GB"
+        }
+    }
+}
