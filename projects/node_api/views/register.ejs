@@ -9,13 +9,17 @@
     <link rel='stylesheet' href='/stylesheets/styles.css' />
   </head>
   
-  
   <body>
     <h1>Register</h1>
     <div class="form-style">
 
-
-    
+        <% if (error_msg != false) { %>
+            <% for (let i = 0; i < errors.length; i++) { %>
+                <div class="alert alert-danger">
+                    <%= errors[i].message %>
+                </div>
+            <% } %>
+        <% } %>
 
       <form method="POST" action="/users/register">
         <div class="form-group">

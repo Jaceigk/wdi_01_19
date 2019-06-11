@@ -6,6 +6,7 @@ const session = require('express-session')
 const expressValidator = require('express-validator')
 const cookieParser = require('cookie-parser')
 const isLoggedIn = require('./utils/isLoggedIn')
+const authChecker = require('./utils/authChecker')
 
 let app = express()
 
@@ -33,6 +34,24 @@ app.use(session({
     }
 }))
 
+app.use(expressValidator({
+    errorFormatter: function(params, message, value) {
+        let namespace = params.split('.')
+        let root = namespace.shift()
+        let formParam = root
+
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']'
+        }
+
+        return {
+            params: formParam,
+            message: message,
+            value: value
+        }
+    }
+}))
+
 app.get('/', function (req, res, next) {
     console.log(req.session)
     console.log(req.cookies)
@@ -52,6 +71,10 @@ app.get('/', function (req, res, next) {
     res.send(req.query)
 })
 
+app.post('/', function (req, res, next) {
+    res.send(req.body)
+})
+
 app.get('/show-me-my-page', function(req, res, next) {
     if (req.session.user) {
         res.render('index', { user: req.session.user })
@@ -60,12 +83,68 @@ app.get('/show-me-my-page', function(req, res, next) {
     }
 })
 
+app.post('/users/login', function(req, res) {
+    req.checkBody('email').isEmail().withMessage('Please enter a valid email')
+    req.checkBody('password').equals(user.password).withMessage('Password does not match')
+
+    let errors = req.validationErrors()
+
+    if (errors) {
+        res.render('login', { error_msg: true, errors: errors, success_msg: false })
+    } else {
+        req.session.user = req.body.email
+
+        res.redirect('/show-me-my-page')
+    }
+})
+
+app.post('/users/register', authChecker, function (req, res) {
+    let errors = req.validationErrors()
+
+    if (errors) {
+        res.render('register', { error_msg: true, errors: errors })
+    } else {
+        user.email = req.body.email
+        user.password = req.body.password
+
+        req.session.user = req.body.email
+
+        res.redirect('/show-me-my-page')
+    }
+})
+
 app.get('/register', isLoggedIn, function (req, res, next) {
     res.render('register', { 'error_msg': false })
 })
 
-app.get('/user/register', function (req, res, next) {
-    res.render('register')
+app.get('/users/login', isLoggedIn, function (req, res) {
+    res.render('login', { success_msg: false, error_msg: false })
+})
+
+app.get('/users/logout', function (req, res) {
+    req.session.destroy()
+
+    res.redirect('/show-me-my-page')
+})
+
+app.get('/users/resetPassword', function (req, res) {
+    res.render('reset', { error_msg: false, success_msg: false })
+})
+
+app.post('/users/resetPassword', function (req, res) {
+    req.checkBody('password').notEmpty().withMessage('Password can not be empty')
+
+    req.checkBody('password').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d`~!@#$%^&*()_+]{5,10}$/).withMessage('Minimum 5 and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character')
+
+    req.checkBody('password').equals(req.body.password2).withMessage('Passwords does not match')
+
+    let errors = req.validationErrors()
+
+    if (errors) {
+        res.render('reset', { error_msg: true, errors: errors, success_msg: false})
+    } else {
+        res.render('reset', { error_msg: false, success_msg: 'Worked'})
+    }
 })
 
 app.get('*', function (req, res) {
