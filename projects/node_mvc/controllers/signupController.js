@@ -12,11 +12,7 @@ module.exports = {
             }
 
             if (user) {
-                // Conflict response status code indicates a request conflict with current state of the server
-                res.status(409).json({
-                    confirmation: 'failure',
-                    message: 'Email already taken'
-                })
+                res.render('register', {error_msg: true, errors: [{ message: 'Email already taken :(' }]})
             } else {
                 next()
 
@@ -34,10 +30,7 @@ module.exports = {
             }
 
             if (user) {
-                res.status(409).json({
-                    confirmation: 'failure',
-                    message: 'Username already taken'
-                })
+                res.render('register', {error_msg: true, errors: [{ message: 'Username already taken :(' }]})
             } else {
                 next()
 

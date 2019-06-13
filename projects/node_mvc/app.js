@@ -4,20 +4,39 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 let mongoose = require('mongoose')
+const expressValidator = require('express-validator')
 
 // Mongoose database
 mongoose.connect('mongodb://localhost/api-users', 
-                { useNewUrlParser: true }, 
-                function (err) {
-                    if (err) console.log(`Error: ${err}`)
-                    else     console.log('Mongodb connected')
-                }
+{ useNewUrlParser: true }, 
+function (err) {
+    if (err) console.log(`Error: ${err}`)
+    else     console.log('Mongodb connected')
+}
 )
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+app.use(expressValidator({
+    errorFormatter: function(param, message, value) {
+        let namespace = param.split('.')
+        let root = namespace.shift()
+        let formParams = root
+
+        while (namespace.length) {
+            formParams += '[' + namespace.shift() + ']'
+        }
+
+        return {
+            param: formParams,
+            message: message,
+            value: value
+        }
+    }
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
