@@ -51,10 +51,13 @@ module.exports = function (passport) {
                         bcrypt.compare(password, user.password)
                             .then( (result) => {
                                 if (!result) {
-                                    return done(null, false, req.flash('loginMessage', '1Check email or password'))
+                                    return done(null, false, req.flash('loginMessage', 'Check email or password'))
                                 } else {
                                     return done(null, user)
                                 }
+                            } )
+                            .catch( error => {
+                                throw error
                             } )
                     })
                 }))

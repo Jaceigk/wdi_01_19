@@ -6,8 +6,9 @@ let mongoose     = require('mongoose');
 let createError  = require('http-errors');
 let cookieParser = require('cookie-parser');
 
-let indexRouter  = require('./routes/index');
-let usersRouter  = require('./routes/users/users');
+let indexRouter   = require('./routes/index');
+let usersRouter   = require('./routes/users/users');
+let productRouter = require('./routes/product/product');
 
 let flash            = require('connect-flash');
 let session          = require('express-session');
@@ -80,8 +81,9 @@ app.use(expressValidator({
     }
 }))
 
-app.use('/',          indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/',            indexRouter);
+app.use('/api/users',   usersRouter);
+app.use('/api/product', productRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

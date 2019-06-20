@@ -1,17 +1,28 @@
 <!doctype html>
 <html lang="en">
+
+    <% include ../partials/head %>
+
   <body>
+
+    <% include ../partials/nav %>
+
     <div class="container emp-profile">
             <form method="post">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="#" alt=""/>
+
+                            <img src="<%= user.profile.picture %>" alt=""/>
+                            
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
                                     <h5>
+
+                                        <%= user.profile.name %>
+
                                     </h5>
     
                                     <p class="proile-rating">RANKINGS : <span>8/10</span></p>
@@ -33,16 +44,41 @@
                     <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            
+                                            <% if (errors.length > 0) { %>
+                                                
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                                                    <%= errors %>
+
                                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                            <% } %>
+                                            
+                                            <% if (success.length > 0) { %>
+
+                                                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+
+                                                    <%= success %>
+
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                            <% } %>
+
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>Name</label>
                                             </div>
                                             <div class="col-md-6">
+
+                                                <%= user.profile.name %>
+
                                             </div>
                                         </div>
                                         <div class="row">
@@ -50,6 +86,9 @@
                                                 <label>Email</label>
                                             </div>
                                             <div class="col-md-6">
+
+                                                <%= user.email %>
+
                                             </div>
                                         </div>
                                 
@@ -64,6 +103,8 @@
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                       
+                                <% include ./edit-profile %>
+
                             </div>
                         </div>
                     </div>
