@@ -6,6 +6,8 @@ let mongoose     = require('mongoose');
 let createError  = require('http-errors');
 let cookieParser = require('cookie-parser');
 
+let methodOverride = require('method-override')
+
 let indexRouter   = require('./routes/index');
 let usersRouter   = require('./routes/users/users');
 let productRouter = require('./routes/product/product');
@@ -35,6 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'))
 
 app.use(session({
     resave: true,

@@ -75,7 +75,7 @@ router.get('/edit-profile', function (req, res) {
                                     success: req.flash('success')})
 })
 
-router.post('/edit-profile', function (req, res) {
+router.put('/edit-profile', function (req, res) {
     userController.updateProfile(req.body, req.user._id)
                     .then(user => {
                         req.flash('success', 'Successfully updated profile!')
