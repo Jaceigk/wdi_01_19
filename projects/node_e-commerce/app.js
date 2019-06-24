@@ -19,6 +19,8 @@ let expressValidator = require('express-validator');
 
 let MongoStore = require('connect-mongo')(session);
 
+let Category = require('./routes/product/models/Category')
+
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true } )
@@ -66,6 +68,19 @@ app.use(function(req, res, next) {
 
     next();
 });
+
+app.use(function (req, res, next) {
+    Category.find({})
+            .then( categories => {
+                
+                res.locals.categories = categories
+
+                next()
+            } )
+            .catch( error => {
+                return next(error)
+            })
+})
 
 app.use(expressValidator({
     errorFormatter: function(param, message, value) {

@@ -12,6 +12,22 @@
      <li class="nav-item">
        <a class="nav-link" href="#">Link</a>
      </li>
+     <li class="nav-item">
+       <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                <% for(let i = 0; i < categories.length; i++) { %>
+
+                    <a class="dropdown-item" href="#"><%= categories[i].name %></a>
+
+                <% } %>
+
+            </div>
+            </div>
+     </li>
    </ul>
    <form class="form-inline my-2 my-lg-0">
      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -20,27 +36,27 @@
  </div>
  <div class="collapse navbar-collapse" id="navbarCollapse">
      <ul class="navbar-nav ml-auto">
-
-        <% if (user) { %>
-
+        
+        <% if(!user){ %>
+        
             <li class="nav-item">
-                <a class="nav-link" href="/api/users/edit-profile">Logged in as <%= user.email %> <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/users/logout">Logout</a>
-            </li>    
-
-        <% } else { %>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/api/users/signup">Sign up <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/api/users/signup">Sign up <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/users/signin">Sign in</a>
             </li>
+        
+        <% } else { %>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/api/users/update-profile">loggedIn as <%= user.email %></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/users/logout">Logout</a>
+            </li>
 
         <% } %>
-
+        
      </ul>
  </div>
 </nav>
