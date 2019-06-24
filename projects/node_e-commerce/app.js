@@ -10,6 +10,7 @@ let methodOverride = require('method-override')
 
 let indexRouter   = require('./routes/index');
 let usersRouter   = require('./routes/users/users');
+let adminRouter   = require('./routes/admin/admin');
 let productRouter = require('./routes/product/product');
 
 let flash            = require('connect-flash');
@@ -86,6 +87,7 @@ app.use(expressValidator({
 
 app.use('/',            indexRouter);
 app.use('/api/users',   usersRouter);
+app.use('/api/admin',   adminRouter);
 app.use('/api/product', productRouter);
 
 // catch 404 and forward to error handler

@@ -8,7 +8,8 @@ router.get('/', function (req, res) {
 })
 
 router.get('/addcategory', function (req, res) {
-    res.render('product/addcategory', { errors: req.flash('addCategoryError'), success: req.flash('addCategorySuccess') })
+    res.render('product/addcategory', { errors:  req.flash('addCategoryError'), 
+                                        success: req.flash('addCategorySuccess') })
 })
 
 router.post('/addcategory', function (req, res) {
@@ -28,10 +29,5 @@ router.post('/addcategory', function (req, res) {
                     res.redirect('/api/product/addcategory')
                 })
 })
-
-
-// http://localhost:3000/api/product/addcategory
-
-
 
 module.exports = router
