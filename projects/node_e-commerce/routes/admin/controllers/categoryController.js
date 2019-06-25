@@ -20,5 +20,18 @@ module.exports = {
                         reject(errors)
                     } )
         })
+    },
+    getAllCategories: (req, res) => {
+        Category.find({})
+                .then( categories => {
+                    res.render('category/create-fake-product', { categories: categories, success: req.flash('createProductsSuccess') })
+                })
+                .catch( error => {
+                    let errors     = {}
+                    errors.status  = 500
+                    errors.message = error
+
+                    res.status(errors.status).json(errors)
+                })
     }
 }

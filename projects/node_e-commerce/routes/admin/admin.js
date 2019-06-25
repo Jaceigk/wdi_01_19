@@ -2,7 +2,10 @@ let express = require('express')
 let router  = express.Router()
 
 let categoryController = require('./controllers/categoryController')
+let createProductController = require('./controllers/createProductController')
 let categoryValidation = require('./utils/categoryValidation')
+
+let Product = require('../product/models/Product')
 
 router.get('/', function (req, res) {
     res.send('Admin Worked')
@@ -26,5 +29,9 @@ router.post('/add-category', categoryValidation, function (req, res) {
                     res.redirect('/api/admin/add-category')
                 })
 })
+
+router.get('/get-all-categories', categoryController.getAllCategories)
+
+router.get('/create-fake-product/:categoryName/:categoryID', createProductController.createProductByCategoryID)
 
 module.exports = router

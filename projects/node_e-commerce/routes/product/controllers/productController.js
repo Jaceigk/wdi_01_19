@@ -1,0 +1,1 @@
+// create method getAllProducts (use a Promise)
