@@ -21,7 +21,7 @@
 
                 <% for(let i = 0; i < categories.length; i++) { %>
 
-                    <a class="dropdown-item" href="#"><%= categories[i].name %></a>
+                    <a class="dropdown-item" href="/api/product/getproductsbycategoryid/<%= categories[i]._id %>"><%= categories[i].name %></a>
 
                 <% } %>
 
@@ -49,7 +49,7 @@
         <% } else { %>
 
             <li class="nav-item">
-                <a class="nav-link" href="/api/users/update-profile">loggedIn as <%= user.email %></a>
+                <a class="nav-link" href="/api/users/edit-profile">loggedIn as <%= user.email %></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/users/logout">Logout</a>
