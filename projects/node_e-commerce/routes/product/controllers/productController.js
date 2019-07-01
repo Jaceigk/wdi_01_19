@@ -1,5 +1,7 @@
 let Product = require('../models/Product')
 
+let paginate = require('../utils/pagination')
+
 module.exports = {
     getAllProducts: (params) => {
         return new Promise((resolve, reject) => {
@@ -40,12 +42,16 @@ module.exports = {
                         resolve(products)
                     })
                     .catch( error => {
-                        let errors = {}
-                        errors.status = 500
+                        let errors     = {}
+                        errors.status  = 500
                         errors.message = error
 
                         reject(errors)
                     })
         })
+    },
+    getPageIfUserLoggedIn: (req, res, next) => {
+        if (req.user) paginate(req, res, next)
+        else res.render('index')
     }
 }
