@@ -34,6 +34,12 @@ router.get('/', function (req, res) {
     res.send('product page')
 })
 
+router.post('/search', (req, res) => {
+    res.redirect('/api/product/search?q=' + req.body.q)
+})
+
+router.get('/search', productController.searchProductByQuery)
+
 router.get('/:id', function (req, res) {
     productController.getProductByID(req.params.id)
                         .then( product => {
