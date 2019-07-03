@@ -40,6 +40,8 @@ router.post('/search', (req, res) => {
 
 router.get('/search', productController.searchProductByQuery)
 
+router.post('/instant-search', productController.instantSearch)
+
 router.get('/:id', function (req, res) {
     productController.getProductByID(req.params.id)
                         .then( product => {
